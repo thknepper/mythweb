@@ -12,7 +12,9 @@
         $group = $_REQUEST['group'];
 
     $sh = $db->query('SELECT recorded.title,
-                             COUNT(recorded.subtitle) AS `count`
+                             COUNT(recorded.subtitle) AS `count`,
+                             recorded.chanid,
+                             UNIX_TIMESTAMP(recorded.starttime)
                         FROM recorded
                        WHERE recorded.recgroup LIKE ?
                     GROUP BY recorded.title
