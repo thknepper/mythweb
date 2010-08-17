@@ -19,7 +19,7 @@
                         FROM recorded
                        WHERE recorded.recgroup LIKE ?
                          AND recorded.title       = ?
-                    ORDER BY recorded.originalairdate ASC
+                    ORDER BY recorded.starttime DESC, recorded.originalairdate ASC
                     ',
                     ($group == 'All' ? '%' : $group),
                     $_REQUEST['title']
