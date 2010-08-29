@@ -29,6 +29,10 @@
         if ($show->recstatus != 'Recording' && $show->recstatus != 'WillRecord')
             continue;
 
+        $urlstr = $show->chanid.'/'.$show->starttime;
+        if ($Schedules[$show->recordid]->search == searchtype_manual)
+            $urlstr .= '/'.$show->recordid;
+
         $cur_group = strftime($_SESSION['date_listing_jump'], $show->recstartts);
 
         if ($cur_group != $prev_group) {
@@ -41,6 +45,7 @@
         $prev_group = $cur_group;
 
         echo '<li class="small">';
+            echo '<a href="', root_url, 'tv/detail/', $urlstr,'">';
             echo '<span class="right" style="padding-top: 4px; padding-right: 4px;">';
                 echo date('H:i', $show->recstartts).' - '.date('H:i', $show->recendts);
             echo '</span>';
@@ -48,8 +53,11 @@
             echo '<div class="text" style="max-height: 15px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; padding: 4px 8px 8px 8px;" >';
                 if ($show->recstatus == 'Recording')
                     echo '<img src="'.skin_img_url.'/spinner.gif">&nbsp;';
-                echo $show->title.( $show->subtitle ? ': '.$show->subtitle : '');
-            echo '</div>';
+                echo $show->title,
+                         ($show->subtitle
+                            ? ':  '.$show->subtitle
+                            : '');
+            echo '</div></a></li>';
     }
 
     echo '</ul>';
